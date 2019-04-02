@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div id="svg-container">
+    </div>
+    <button onclick="abc()">asdlkfjsaf</button>
+
+    <script>
+        const SVGNS = "http://www.w3.org/2000/svg"
+        //
+        let container = document.getElementById("svg-container")
+        let svg = document.createElementNS(SVGNS, "svg");
+        svg.setAttribute("width", 500)
+        svg.setAttribute("height", 500)
+
+        let circle = document.createElementNS(SVGNS, "circle");
+        circle.setAttribute("cx", 50)
+        circle.setAttribute("cy", 50)
+        circle.setAttribute("r", 40)
+        circle.setAttribute("stroke", "green")
+        circle.setAttribute("stroke-width", 4)
+        circle.setAttribute("fill", "yellow")
+
+        svg.appendChild(circle)
+
+        container.appendChild(svg)
+
+        let animateObject = (obj,from,to,duration) => {
+            let passes = Math.floor(duration/5)
+            let increments = {}
+            Object.keys(from).forEach((a) => {
+                increments[a] = (to[a]-from[a])/passes
+            })
+
+            let state = Object.assign({},from)
+            let ctr = 0
+            let id = setInterval(() => {
+                if ( ctr >= passes ) {
+                    clearInterval(id);
+                    return
+                }
+                Object.keys(from).forEach((a)=>{
+                    state[a] += increments[a]
+                    circle.setAttribute(a, state[a])
+                })
+                ctr++
+            }, 5);
+        }
+        function abc () {
+            animateObject(circle,{'cx':40,'cy':50},{'cx':300,'cy':100},500)
+        }
+    </script>
+
+</body>
+
+</html>
